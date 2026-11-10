@@ -41,3 +41,14 @@ example
 # generated native folders
 /ios
 /android
+.env
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+# Playwright CLI output (may contain credentials)
+.playwright-cli/
+.playwright-mcp/

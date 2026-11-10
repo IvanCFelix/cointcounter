@@ -1,56 +1,26 @@
-# Welcome to your Expo app 👋
+# CointCounter
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Control de gastos personales (MVP). Expo SDK 58 + expo-router + Firebase (Auth anónima + Firestore).
 
-## Get started
+## Configurar Firebase
+1. Crea un proyecto en Firebase y registra una app **Web**.
+2. Authentication → Sign-in method → habilita **Anónimo**.
+3. Firestore Database → crea la base y publica las reglas de `firestore.rules`.
+4. Copia los valores de la config web a `.env` (ver `.env.example`).
 
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+## Correr
 ```bash
-npm run reset-project
+npm install
+npx expo start        # Expo Go en el teléfono
+npm run web           # navegador
+npm run check         # self-check de la lógica de presupuesto
+npx tsc --noEmit && npx expo lint
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+## Estructura
+- `src/app/` rutas (tabs: Gastos | + | Cortes, `budget`, `cut/[month]`, `onboarding`).
+- `src/components/` librería atómica (`atoms/`, `molecules/`, `organisms/`), todo exportado desde `@/components`. Componentes nuevos van aquí y se agregan a `index.ts`.
+- `src/theme.ts` paleta y tokens; `src/budget.ts` lógica pura (reparto 50/30/20 y modelos alternos, orden, alerta 80%); `src/data.ts` Firestore.
 
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Cortes
+Cada gasto guarda `monthKey` (YYYY-MM) según su fecha; el corte actual es el mes en curso y los meses anteriores aparecen en **Cortes**. No hay cron.
